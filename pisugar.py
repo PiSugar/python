@@ -3,7 +3,7 @@ import smbus
 import logging
 import time
 import threading
-from datetime import datetime 
+from datetime import datetime
 import csv  # 导入 csv 模块
 from collections import deque
 # 设置 logging 级别为 INFO
@@ -27,7 +27,7 @@ curve1200 = [
     (3.49, 3.2),
     (3.1, 0.0),
 ]
-curve1200_3= [
+curve1200_3 = [
     (4.2, 100.0),  # 高电量阶段 (100%)
     (4.0, 80.0),   # 中电量阶段 (80%)
     (3.7, 60.0),   # 中电量阶段 (60%)
@@ -58,7 +58,7 @@ class PiSugarServer:
         self.i2creg = []
         self.address = 0
         self.battery_voltage = 0
-        self.voltage_history = deque(maxlen=10) 
+        self.voltage_history = deque(maxlen=10)
         self.battery_level = 0
         self.battery_charging = 0
         self.temperature = 0
@@ -133,9 +133,9 @@ class PiSugarServer:
                     self.battery_voltage = (
                         (((high & 0b00111111) << 8) + low) * 0.26855 + 2600.0)/1000
                     self.power_plugged = self.i2creg[0xdd] == 0x1f
-                
+
                 self.voltage_history.append(self.battery_voltage)
-                self.battery_level=self.convert_battery_voltage_to_level()
+                self.battery_level = self.convert_battery_voltage_to_level()
                 time.sleep(3)
             except:
                 logging.error(f"read error")
@@ -260,14 +260,6 @@ class PiSugarServer:
         """
         return self.battery_voltage
 
-    def get_battery_current(self):
-        """
-        Get the current battery current.
-
-        :return: Battery current in amperes.
-        """
-        pass
-
     def get_battery_allow_charging(self):
         """
         Check if battery charging is allowed.
@@ -275,104 +267,6 @@ class PiSugarServer:
         :return: True if charging is allowed, False otherwise.
         """
         return self.allow_charging
-
-    def get_battery_charging_range(self):
-        """
-        Get the battery charging range.
-
-        :return: Charging range string.
-        """
-        pass
-
-    def get_battery_full_charge_duration(self):
-        """
-        Get the duration of keeping the battery charging when full.
-
-        :return: Duration in seconds.
-        """
-        pass
-
-    def get_battery_safe_shutdown_level(self):
-        """
-        Get the safe shutdown level for the battery.
-
-        :return: Safe shutdown level as a percentage.
-        """
-        pass
-
-    def get_battery_safe_shutdown_delay(self):
-        """
-        Get the safe shutdown delay.
-
-        :return: Delay in seconds.
-        """
-        pass
-
-    def get_battery_auto_power_on(self):
-        """
-        Check if auto power on is enabled.
-
-        :return: True if enabled, False otherwise.
-        """
-        pass
-
-    def get_battery_soft_poweroff(self):
-        """
-        Check if soft power off is enabled.
-
-        :return: True if enabled, False otherwise.
-        """
-        pass
-
-    def get_system_time(self):
-        """
-        Get the system time.
-
-        :return: System time string.
-        """
-        pass
-
-    def get_rtc_adjust_ppm(self):
-        """
-        Get the RTC adjust PPM.
-
-        :return: RTC adjust PPM value.
-        """
-        pass
-
-    def get_rtc_alarm_repeat(self):
-        """
-        Get the RTC alarm repeat setting.
-
-        :return: RTC alarm repeat string.
-        """
-        pass
-
-    def get_tap_enable(self, tap):
-        """
-        Check if a specific tap (single, double, long) is enabled.
-
-        :param tap: Type of tap ('single', 'double', 'long').
-        :return: True if enabled, False otherwise.
-        """
-        pass
-
-    def get_tap_shell(self, tap):
-        """
-        Get the shell command associated with a specific tap.
-
-        :param tap: Type of tap ('single', 'double', 'long').
-        :return: Shell command string.
-        """
-        pass
-
-    def get_anti_mistouch(self):
-        """
-        Check if anti-mistouch protection is enabled.
-
-        :return: True if enabled, False otherwise.
-        """
-        pass
 
     def get_temperature(self):
         """
@@ -389,20 +283,6 @@ class PiSugarServer:
         :return: True if plugged in, False otherwise.
         """
         return self.power_plugged
-
-    def get_battery_charging(self):
-        """
-        Check if the battery is currently charging.
-
-        :return: True if charging, False otherwise.
-        """
-        pass
-
-    def rtc_web(self):
-        """
-        Synchronize RTC with web time.
-        """
-        pass
 
 
 # Example usage
@@ -429,7 +309,8 @@ if __name__ == "__main__":
                 pi_sugar.get_battery_voltage(),
                 pi_sugar.get_battery_level()
             ])
-            print(f"Time {current_time} Voltage {pi_sugar.get_battery_voltage()} Level {pi_sugar.get_battery_level()}")
+            print(f"Time {current_time} Voltage {
+                  pi_sugar.get_battery_voltage()} Level {pi_sugar.get_battery_level()}")
 
             # 刷新文件缓冲区，确保数据写入文件
             file.flush()
